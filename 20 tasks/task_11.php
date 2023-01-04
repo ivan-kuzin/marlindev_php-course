@@ -34,18 +34,23 @@
                         <div class="panel-content">
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <div class="alert alert-danger fade show" role="alert">
-                                        Неверный логин или пароль
-                                    </div>
-                                    <form action="">
-                                        <div class="form-group">
-                                        	<label class="form-label" for="simpleinput">Email</label>
-                                        <input type="text" id="simpleinput" class="form-control">
-                                        </div>
+                                    <?php
+                                        session_start();
+                                        if ( isset($_SESSION['flash']) ) {
+                                            echo '<div class="alert alert-danger fade show" role="alert">';
+                                            echo $_SESSION['flash'];
+                                            echo '</div>';
+                                            unset($_SESSION['flash']);
+                                        }
+                                    ?>
 
-                                        <label class="form-label" for="simpleinput">Password</label>
-                                        <input type="password" id="simpleinput" class="form-control">
-                                        <button class="btn btn-success mt-3">Submit</button>
+                                    <?php
+                                        $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/create_11.php';
+                                    ?>
+                                    <form action="<?php echo $url; ?>" method="post">
+                                        <label class="form-label" for="simpleinput">Text</label>
+                                        <input type="text" id="simpleinput" name="text" class="form-control" required>
+                                        <button type="submit" class="btn btn-success mt-3">Submit</button>
                                     </form>
                                 </div>
                             </div>

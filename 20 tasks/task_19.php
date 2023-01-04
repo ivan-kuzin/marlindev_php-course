@@ -37,12 +37,15 @@
                             <div class="panel-content">
                                 <div class="panel-content">
                                     <div class="form-group">
-                                        <form action="">
+                                        <?php
+                                            $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/task_19_handler.php';
+                                        ?>
+                                        <form action="<?php echo $url; ?>" method="post" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label class="form-label" for="simpleinput">Image</label>
-                                            <input type="file" id="simpleinput" class="form-control">
+                                            <input type="file" name="files[]" id="simpleinput" class="form-control" multiple required>
                                             </div>
-                                            <button class="btn btn-success mt-3">Submit</button>
+                                            <button type="submit" class="btn btn-success mt-3">Submit</button>
                                         </form>
                                     </div>
                                 </div>
@@ -66,18 +69,22 @@
                             <div class="panel-content">
                                 <div class="panel-content image-gallery">
                                     <div class="row">
-                                        <div class="col-md-3 image">
-                                            <img src="img/demo/gallery/1.jpg">
-                                            <a class="btn btn-danger" href="#" onclick="confirm('Вы уверены?');">Удалить</a>
-                                        </div>
-                                        <div class="col-md-3 image">
-                                            <img src="img/demo/gallery/2.jpg">
-                                            <a class="btn btn-danger" onclick="confirm('Вы уверены?');" href="#">Удалить</a>
-                                        </div>
-                                        <div class="col-md-3 image">
-                                            <img src="img/demo/gallery/3.jpg">
-                                            <a class="btn btn-danger" onclick="confirm('Вы уверены?');" href="#">Удалить</a>
-                                        </div>
+                                        <?php
+                                            require_once $_SERVER['DOCUMENT_ROOT'] . '/task_19_config.php';
+                                            $uploaded_files_sql = 'SELECT * FROM files';
+                                            $statement = $pdo->prepare($uploaded_files_sql);
+                                            $statement->execute();
+                                            $images = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                            if ( !empty($images) ){
+                                                foreach ( $images as $image ){
+                                                    echo '<div class="col-md-3 image">';
+                                                    echo '<img src="/task_19_upload/'. $image['filename'] .'" >';
+                                                    echo '</div>';
+                                                }
+                                            }else{
+                                                echo '<div class="col-12">Изображения не загружены.</div>';
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             </div>

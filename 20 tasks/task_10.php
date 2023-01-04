@@ -19,6 +19,7 @@
 </head>
 <body class="mod-bg-1 mod-nav-link ">
 <main id="js-page-content" role="main" class="page-content">
+
     <div class="col-md-6">
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
@@ -26,30 +27,31 @@
                     Задание
                 </h2>
                 <div class="panel-toolbar">
-                    <button class="btn btn-panel waves-effect waves-themed" data-action="panel-collapse"
-                            data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
-                    <button class="btn btn-panel waves-effect waves-themed" data-action="panel-fullscreen"
-                            data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                    <button class="btn btn-panel waves-effect waves-themed" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                    <button class="btn btn-panel waves-effect waves-themed" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
                 </div>
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
                     <div class="panel-content">
                         <div class="form-group">
-                                <div class="alert alert-danger fade show" role="alert">
-                                   Этот эл адрес уже занят другим пользователем
-                                </div>
-
-                            <form action="task_11_handler.php" method="post">
-                                <div class="form-group">
-                                    <label class="form-label" for="simpleinput">Email</label>
-                                    <input type="text" name="email" id="simpleinput" class="form-control">
-                                </div>
-
-                                <label class="form-label" for="simpleinput">Password</label>
-                                <input type="password" name="password" id="simpleinput" class="form-control">
-                                <button class="btn btn-success mt-3">Submit</button>
+                            <?php
+                                $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/create_10.php';
+                            ?>
+                            <form action="<?php echo $url; ?>" method="post">
+                                <label class="form-label" for="simpleinput">Text</label>
+                                <input type="text" id="simpleinput" name="text" class="form-control" required>
+                                <button type="submit" class="btn btn-success mt-3">Submit</button>
                             </form>
+                            <?php
+                                if ( isset($_GET['status']) ){
+                                    if ( $_GET['status'] == 'ok' ){
+                                        echo '<div class="mt-2"><span style="color: green;">Данные успешно добавлены в базу!</span></div>';
+                                    }else if ( $_GET['status'] == 'error' ){
+                                        echo '<div class="mt-2"><span style="color: red;">Что-то пошло не так!</span></div>';
+                                    }
+                                }
+                            ?>
                         </div>
                     </div>
                 </div>

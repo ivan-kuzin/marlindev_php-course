@@ -19,7 +19,6 @@
     </head>
     <body class="mod-bg-1 mod-nav-link ">
         <main id="js-page-content" role="main" class="page-content">
-
             <div class="col-md-6">
                 <div id="panel-1" class="panel">
                     <div class="panel-hdr">
@@ -35,10 +34,27 @@
                         <div class="panel-content">
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <form action="">
-                                        <label class="form-label" for="simpleinput">Text</label>
-                                        <input type="text" id="simpleinput" class="form-control">
-                                        <button class="btn btn-success mt-3">Submit</button>
+                                    <?php
+                                        session_start();
+                                        if ( isset($_SESSION['user']) == 'error' ){
+                                            echo '<div class="alert alert-danger fade show" role="alert">';
+                                            echo 'Неверный логин или пароль';
+                                            echo '</div>';
+                                            unset($_SESSION['user']);
+                                        }
+                                    ?>
+                                    <?php
+                                        $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/task_15_handler.php';
+                                    ?>
+                                    <form action="<?php echo $url; ?>" method="post">
+                                        <div class="form-group">
+                                        	<label class="form-label" for="simpleinput">Email</label>
+                                        <input type="email" name="email" id="simpleinput" class="form-control" required>
+                                        </div>
+
+                                        <label class="form-label" for="simpleinput">Password</label>
+                                        <input type="password" name="password" id="simpleinput" class="form-control" required>
+                                        <button type="submit" class="btn btn-success mt-3">Submit</button>
                                     </form>
                                 </div>
                             </div>

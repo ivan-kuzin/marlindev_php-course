@@ -35,11 +35,22 @@
                         <div class="panel-content">
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <div class="alert alert-info">Ваше сообщение выводится тут</div>
-                                    <form action="">
+                                    <?php
+                                        session_start();
+                                        if ( isset($_SESSION['text']) ){
+                                            echo '<div class="alert alert-info">';
+                                            echo $_SESSION['text'];
+                                            echo '</div>';
+                                            unset($_SESSION['text']);
+                                        }
+                                    ?>
+                                    <?php
+                                        $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/task_13_handler.php';
+                                    ?>
+                                    <form action="<?php echo $url; ?>" method="post">
                                         <label class="form-label" for="simpleinput">Text</label>
-                                        <input type="text" id="simpleinput" class="form-control">
-                                        <button class="btn btn-success mt-3">Submit</button>
+                                        <input type="text" name="text" id="simpleinput" class="form-control" required>
+                                        <button type="submit" class="btn btn-success mt-3">Submit</button>
                                     </form>
                                 </div>
                             </div>

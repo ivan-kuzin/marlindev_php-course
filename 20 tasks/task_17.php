@@ -37,12 +37,24 @@
                             <div class="panel-content">
                                 <div class="panel-content">
                                     <div class="form-group">
-                                        <form action="">
+                                        <?php
+                                            session_start();
+                                            if ( isset($_SESSION['error']) ){
+                                                echo '<div class="alert alert-danger fade show" role="alert">';
+                                                echo $_SESSION['error'];
+                                                echo '</div>';
+                                                unset($_SESSION['error']);
+                                            }
+                                        ?>
+                                        <?php
+                                            $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/task_17_handler.php';
+                                        ?>
+                                        <form action="<?php echo $url; ?>" method="post" enctype="multipart/form-data">
                                             <div class="form-group">
-                                                <label class="form-label" for="simpleinput">Image</label>
-                                            <input type="file" id="simpleinput" class="form-control">
+                                            <label class="form-label" for="simpleinput">Image</label>
+                                            <input type="file" name="file" id="simpleinput" class="form-control" required>
                                             </div>
-                                            <button class="btn btn-success mt-3">Submit</button>
+                                            <button type="submit" class="btn btn-success mt-3">Submit</button>
                                         </form>
                                     </div>
                                 </div>
@@ -66,16 +78,22 @@
                             <div class="panel-content">
                                 <div class="panel-content image-gallery">
                                     <div class="row">
-                                        <div class="col-md-3 image">
-                                            <img src="img/demo/gallery/1.jpg">
-                                        </div>
-
-                                        <div class="col-md-3 image">
-                                            <img src="img/demo/gallery/2.jpg">
-                                        </div>
-
-                                        <div class="col-md-3 image">
-                                            <img src="img/demo/gallery/3.jpg">
+                                        <?php
+                                            require_once $_SERVER['DOCUMENT_ROOT'].'/task_17_config.php';
+                                            $file_load_sql = 'SELECT * FROM files';
+                                            $statement = $pdo->prepare($file_load_sql);
+                                            $statement->execute();
+                                            $images = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                            if ( !empty($images) ){
+                                                foreach ( $images as $image ){
+                                                    echo '<div class="col-md-3 image">';
+                                                    echo '<img src="/task_17_upload/'. $image['filename'] .'" >';
+                                                    echo '</div>';
+                                                }
+                                            }else{
+                                                echo '<div class="col-12">Изображения не загружены.</div>';
+                                            }
+                                        ?>
                                         </div>
                                     </div>
                                 </div>

@@ -34,10 +34,24 @@
                         <div class="panel-content">
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <div class="alert alert-success fade show" role="alert">
-                                        Здравствуйте, ИМЯ_ПОЛЬЗОВАТЕЛЯ.
+                                    <?php
+                                        session_start();
+                                        if ( isset($_SESSION['count']) ){
+                                            $count = $_SESSION['count'];
+                                        }else{
+                                            $count = 0;
+                                        }
+                                    ?>
+                                    <div class="alert alert-info fade show" role="alert">
+                                        Кнопка была нажата: <b><?php echo $count; ?></b> раз
                                     </div>
-                                    <a href="#" class="btn btn-info">Выйти</a>
+
+                                    <?php
+                                        $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/task_14_handler.php';
+                                    ?>
+                                    <form action="<?php echo $url; ?>" method="post">
+                                        <button type="submit" class="btn btn-success mt-3">Submit</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

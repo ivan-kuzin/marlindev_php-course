@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    if ( !isset($_SESSION['user']) && $_SESSION['user'] != 'error'){
+        header('Location: /task_15.php');
+    }else{
+        $username = $_SESSION['user'];
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,16 +40,19 @@
                     </div>
                     <div class="panel-container show">
                         <div class="panel-content">
-                            <div class="panel-content">
-                                <div class="form-group">
-                                    <div class="alert alert-info fade show" role="alert">
-                                        Кнопка была нажата: <b>0</b> раз
+                            <?php
+                                $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/task_16_handler.php';
+                            ?>
+                            <form action="<?php echo $url; ?>" method="post">
+                                <div class="panel-content">
+                                    <div class="form-group">
+                                        <div class="alert alert-success fade show" role="alert">
+                                            Здравствуйте, <?php echo $username; ?>.
+                                        </div>
+                                        <button type="submit" class="btn btn-info">Выйти</button>
                                     </div>
-                                    <form action="">
-                                        <button class="btn btn-success mt-3">Submit</button>
-                                    </form>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
